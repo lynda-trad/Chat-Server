@@ -6,7 +6,7 @@ public interface ChatProtocol
 {
 	boolean getStop();
 	
-	default public void sendName (String name){}
+	default void sendName (String name){}
 	
 	default void sendNameOK(){}
 	

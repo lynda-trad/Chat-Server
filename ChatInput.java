@@ -76,8 +76,8 @@ public class ChatInput
 					break;
 					
 				default : 
+					System.out.println(line);
 					throw new ChatProtocolException("Invalid Input");
-					
 				}
 			}
 		}
