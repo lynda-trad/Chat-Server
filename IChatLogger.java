@@ -1,12 +1,12 @@
 package server;
 
-public class IChatLogger 
+public interface IChatLogger 
 {
-
-	public void clientDisconnected(String string, String name) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void clientConnected(String ip);
+	public void clientDisconnected(String ip, String name);
+	public void clientGotName(String ip, String name);
+	public void clientGotCommand(String name, int command);
+	public void publicChat(String from, String msg);
+	public void privateChat(String from, String to, String msg);
+	public void systemMessage(String msg);
 }

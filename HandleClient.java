@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Collection;
 
-public class HandleClient implements Runnable, ChatProtocol , ChatModelEvents
+public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 {
 	private final Socket s; 
 	
@@ -39,9 +39,17 @@ public class HandleClient implements Runnable, ChatProtocol , ChatModelEvents
 		{
 			cho = new ChatOutput (s1.getOutputStream());
 			chi = new ChatInput (s1.getInputStream(), this);
-			chi.doRun();
+			try 
+			{
+				chi.doRun();
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
 		} catch ( IOException ex ) 
 		{
+			logger.systemMessage(ex.getMessage());
 			if (!stop) 
 			{
 				finish();
@@ -73,11 +81,12 @@ public class HandleClient implements Runnable, ChatProtocol , ChatModelEvents
 	public void sendMessage (String user, String msg) 
 	{
 		ChatModel.sendChatMessage(user, msg);
+		logger.publicChat(user, msg);
 	}
 	
 	public void sendAskUserList () 
 	{
-		cho.sendAskUserList();
+		cho.sendUserList(ChatModel.getUserNames());
 	}
 	
 	public void sendUserList (Collection<String> ulist) 
@@ -88,35 +97,40 @@ public class HandleClient implements Runnable, ChatProtocol , ChatModelEvents
 	public void sendPrivateMessage (String from, String to, String msg) 
 	{
 		ChatModel.sendPrivateChatMessage(from, to, msg);
+		logger.privateChat(from, to, msg);
 	}
-
 	
 	@Override
 	public void userListChanged() 
 	{
-		// TODO Auto-generated method stub
-		
+		cho.sendUserList(ChatModel.getUserNames());
 	}
 
 	@Override
 	public void chatMessageSent(String from, String message) 
 	{
-		// TODO Auto-generated method stub
-		
+		cho.sendMessage(from, message);
 	}
 
 	@Override
 	public void privateChatMessageSent(String from, String to, String message) 
 	{
-		// TODO Auto-generated method stub
-		
+		cho.sendPrivateMessage(from, to, message);
 	}
 
 	@Override
 	public void shutdownRequested() 
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	
+	public void sendQuit()
+	{
+		cho.sendQuit();
+	}
+	
+	public void sendName(String name)
+	{
+		
+	}
 }

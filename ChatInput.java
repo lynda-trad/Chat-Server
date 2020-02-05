@@ -76,7 +76,7 @@ public class ChatInput
 					break;
 					
 				default : 
-					throw new ChatProtocolException ("Invalid Input");
+					throw new ChatProtocolException("Invalid Input");
 					
 				}
 			}
