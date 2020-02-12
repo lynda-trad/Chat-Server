@@ -5,7 +5,8 @@ import java.net.Socket;
 import java.util.Collection;
 import java.util.Random;
 
-public class ClientHandleConnection extends Thread implements ChatProtocol {
+public class ClientHandleConnection extends Thread implements ChatProtocol 
+{
 	/*
 	ChatInput chi;
 	ChatOutput cho;

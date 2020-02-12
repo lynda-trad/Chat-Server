@@ -2,7 +2,8 @@ package chatModele;
 
 import java.util.Collection;
 
-public interface ChatProtocol {
+public interface ChatProtocol 
+{
 	default void sendName(String name) {}
 	default void sendNameOK() {}
 	default void sendNameBad() {}

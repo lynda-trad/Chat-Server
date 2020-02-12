@@ -3,48 +3,61 @@ package chatModele;
 import java.io.IOException;
 import java.net.Socket;
 
-public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents {
-	
+public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents 
+{	
 	private final Socket s;
 	private ChatOutput cho;
 	private ChatInput chi;
 	private String name = "";
 	private IChatLogger logger = null;
 	
-	private enum ClientState {
+	private enum ClientState 
+	{
 		ST_INIT, ST_NORMAL
 	};
 	
 	private ClientState state = ClientState.ST_INIT;
 	private boolean stop = false;
 	
-	public HandleClient(Socket s, IChatLogger logger) throws IOException {
+	public HandleClient(Socket s, IChatLogger logger) throws IOException 
+	{
 		this.s = s;
 		this.logger = logger;
 	}
 	
-	public void run() {
-		try (Socket s1 = s) {
+	public void run() 
+	{
+		try (Socket s1 = s) 
+		{
 			cho = new ChatOutput(s1.getOutputStream());
 			chi = new ChatInput(s1.getInputStream(), this);
 			chi.doRun();
-		} catch (IOException ex) {
-		
-			if (!stop) {
+		} 
+		catch (IOException ex) 
+		{
+			if (!stop) 
+			{
 				finish();
 			}
 		}
 	}
 
-	public void sendName(String name) {
+	public void sendName(String name) 
+	{
 		String newName = name;
-		if (ChatModel.existUserName(newName)) {
+		if (ChatModel.existUserName(newName)) 
+		{
 			cho.sendNameBad();
-		} else {
-			if (state == ClientState.ST_INIT) {
+		} 
+		else 
+		{
+			if (state == ClientState.ST_INIT) 
+			{
 				ChatModel.registerUser(newName, this);
 				state = ClientState.ST_NORMAL;
-			} else {
+			}
+			else 
+			{
 				ChatModel.renameUser(name, newName, this);
 			}
 			this.name = newName;

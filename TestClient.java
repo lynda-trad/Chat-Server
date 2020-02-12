@@ -17,9 +17,11 @@ public class TestClient
 			PrintWriter pw = new PrintWriter(s.getOutputStream(), false);
 			boolean stop = false;
 			Scanner sc = new Scanner(System.in);
-			while(!stop) {
+			while(!stop) 
+			{
 				String cmd = sc.nextLine();
-				switch(cmd) {
+				switch(cmd) 
+				{
 				case "":
 					pw.flush();
 					System.out.println("envoyé");
@@ -40,7 +42,9 @@ public class TestClient
 
 			sc.close();
 			s.close();
-		}catch(Exception e) {
+		}
+		catch(Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}

@@ -6,25 +6,30 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ChatInput {
-	
+public class ChatInput 
+{	
 	ChatProtocol handler;
 	InputStream in;
 	
-	public ChatInput(InputStream in, ChatProtocol handler) throws IOException {
+	public ChatInput(InputStream in, ChatProtocol handler) throws IOException 
+	{
 		this.in = in;
 		this.handler = handler;
 	}
 	
-	public void doRun() throws IOException {
+	public void doRun() throws IOException 
+	{
 		String strMsg, strName;
 		ArrayList<String> userList;
 		
-		try (BufferedReader is = new BufferedReader(new InputStreamReader(in))) {
+		try (BufferedReader is = new BufferedReader(new InputStreamReader(in)))
+		{
 			boolean stop = false;
-			while (!stop) {
+			while (!stop) 
+			{
 				String line = is.readLine();
-				switch (line) {
+				switch (line) 
+				{
 					case "NAME":
 						strName = is.readLine();
 						handler.sendName(strName);
@@ -58,7 +63,8 @@ public class ChatInput {
 					case "ULIST":
 						userList = new ArrayList<>();
 						String x;
-						while (!(x = is.readLine()).equals(".")) {
+						while (!(x = is.readLine()).equals(".")) 
+						{
 							userList.add(x);
 						}
 						handler.sendUserList(userList);
