@@ -160,4 +160,57 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	{
 		shutdownRequested();
 	}
+	
+	// Room
+	
+	public void sendCreateRoom(String room)
+	{
+		if (state == ClientState.ST_INIT )
+		{
+			return;
+		}
+		if(ChatModel.existRoom(room)) 
+			cho.sendRoomBad(room);
+		else
+		{
+			ChatModel.addRoom(room, name);
+			cho.sendRoomOK(room);
+		}
+	}
+	
+	public void sendRoomMessage(String room, String from , String message)
+	{
+		if (state == ClientState.ST_INIT )
+		{
+			cho.sendError( "Not initialized...");
+		}
+		if (ChatModel.roomHasUser(room, name ))
+		{
+			ChatModel.roomSendChatMessage(room, name ,message);
+		}
+		else
+		cho.sendError( "Not in room...");
+	}
+
+	@Override
+	public void roomUserListChanged(String room) 
+	{
+		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+	}
+
+	@Override
+	public void roomChatMessageSent(String room, String from, String message) 
+	{
+		if (from != name) 
+		{
+			cho.sendRoomMessage(room, from, message);
+		}
+	}
+
+	@Override
+	public void roomListChanged() 
+	{
+		cho.sendRoomList(ChatModel.getRoomNames());
+	}
+	
 }

@@ -6,7 +6,10 @@ import java.util.TreeMap;
 public class ChatModel 
 {
 	private static final TreeMap<String, ChatModelEvents> clientList = new TreeMap<>();
-			
+	private static final TreeMap <String , RoomModel> roomList = new TreeMap<>();
+	
+	// Chat
+	
 	public static synchronized boolean registerUser(String name, HandleClient client)
 	{
 		if (!existUserName(name) && !name.equals("")) 
@@ -70,6 +73,74 @@ public class ChatModel
 	public static void clearAll() 
 	{
 		clientList.clear();
+	}
+
+	// Rooms
+
+	public static synchronized Set<String> getRoomNames() 
+	{
+		return roomList.keySet();
+	}
+	
+	public static synchronized boolean addRoom(String room, String master)
+	{
+		if (!existRoom(room) && existUserName(master))
+		{
+			roomList.put(room, new RoomModel(room, master, clientList.get(master)));
+			notifyChangeRooms();
+			return true;
+		}
+		return false;
+	}
+	
+	public static synchronized void deleteRoom(String room, String user)
+	{
+		if (existRoom(room) && roomList.get(room).canDelete(user))
+		{
+			roomList.remove(room); 
+			notifyChangeRooms();
+		}
+	}
+	
+	private static synchronized void notifyChangeRooms()
+	{
+		clientList.values().forEach(ChatModelEvents::roomListChanged);
+	}
+	
+	public static synchronized void enterRoom(String room, String user)
+	{
+		if (!existUserName(user) || !existRoom (room))
+		{
+			return;
+		}
+		roomList.get(room).registerUser(user, clientList.get (user));
+	}
+	
+	public static synchronized void leaveRoom (String room, String user)
+	{
+		if (!existUserName (user) || !existRoom (room))
+		{
+			return;
+		}
+		
+		roomList.get(room).unregisterUser(user);
+		if (roomList.get(room).userCount() == 0)
+			roomList.remove(room);
+	}
+	
+	public static boolean existRoom(String room) 
+	{
+		return roomList.containsKey(room);
+	}
+
+	public static boolean roomHasUser(String room, String name) 
+	{
+		return roomList.get(room).hasUser(name);
+	}
+
+	public static void roomSendChatMessage(String room, String name, String message) 
+	{
+		roomList.get(room).chatMessage(name, message);
 	}
 
 }
