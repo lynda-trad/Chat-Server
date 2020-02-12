@@ -33,32 +33,32 @@ public class ChatInput
 					case "NAME":
 						strName = is.readLine();
 						handler.sendName(strName);
-						break;
+					break;
 						
 					case "NAME OK":
 						handler.sendNameOK();
-						break;
+					break;
 						
 					case "NAME BAD":
 						handler.sendNameBad();
-						break;
+					break;
 					
 					case "MESSAGE":
 						strName = is.readLine();
 						strMsg = is.readLine();
 						handler.sendMessage(strName, strMsg);
-						break;
+					break;
 						
 					case "PRIVATE MESSAGE":
 						strName = is.readLine();
 						String dst = is.readLine();
 						strMsg = is.readLine();
 						handler.sendPrivateMessage(strName, dst, strMsg);
-						break;
+					break;
 						
 					case "AULIST":
 						handler.sendAskUserList();
-						break;
+					break;
 					
 					case "ULIST":
 						userList = new ArrayList<>();
@@ -68,11 +68,11 @@ public class ChatInput
 							userList.add(x);
 						}
 						handler.sendUserList(userList);
-						break;
+					break;
 						
 					case "QUIT":
 						handler.sendQuit();
-						break;
+					break;
 						
 					default:
 						throw new ChatProtocolException("Invalid input");
