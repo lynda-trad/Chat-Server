@@ -53,33 +53,41 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents {
 		}
 	}
 
-	public void askUList() {
+	public void askUList() 
+	{
 		if (state == ClientState.ST_INIT) return;
 		cho.sendUserList(ChatModel.getUserNames());
-		}
+	}
 		
-	public void sendMessage(String user, String msg) {
+	public void sendMessage(String user, String msg) 
+	{
 		if (state == ClientState.ST_INIT) 
 			return;
 		ChatModel.sendChatMessage(name, msg);
 		logger.publicChat(name, msg);
 	}
 		
-	public void chatMessage(String from, String msg) {
-		if (from != name) {
+	public void chatMessage(String from, String msg) 
+	{
+		if (from != name) 
+		{
 			cho.sendMessage(from, msg);
 		}
 	}
 
-	public synchronized void finish(){
-		if (!stop) {
+	public synchronized void finish()
+	{
+		if (!stop) 
+		{
 			stop = true;
-			try {
+			try 
+			{
 				s.close();
-			} catch (IOException ex) { 
+			} 
+			catch (IOException ex) 
+			{ 
 				ex.printStackTrace(); 
 			}
-			
 			if (name != null)
 				ChatModel.unregisterUser(name);
 			
@@ -88,26 +96,26 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents {
 	}
 
 	@Override
-	public void userListChanged() {
+	public void userListChanged() 
+	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void chatMessageSent(String from, String message) {
-		// TODO Auto-generated method stub
-		
+	public void chatMessageSent(String from, String message) 
+	{
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
-	public void privateChatMessageSent(String from, String to, String message) {
-		// TODO Auto-generated method stub
-		
+	public void privateChatMessageSent(String from, String to, String message) 
+	{
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
-	public void shutdownRequested() {
-		// TODO Auto-generated method stub
-		
+	public void shutdownRequested() 
+	{
+		// TODO Auto-generated method stub	
 	}
 }
