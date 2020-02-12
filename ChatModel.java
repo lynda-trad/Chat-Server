@@ -1,5 +1,6 @@
 package chatModele;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -77,7 +78,7 @@ public class ChatModel
 
 	// Rooms
 
-	public static synchronized Set<String> getRoomNames() 
+	public static synchronized Set<String> getRooms() 
 	{
 		return roomList.keySet();
 	}
@@ -91,6 +92,11 @@ public class ChatModel
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean existRoom(String room) 
+	{
+		return roomList.containsKey(room);
 	}
 	
 	public static synchronized void deleteRoom(String room, String user)
@@ -128,11 +134,6 @@ public class ChatModel
 			roomList.remove(room);
 	}
 	
-	public static boolean existRoom(String room) 
-	{
-		return roomList.containsKey(room);
-	}
-
 	public static boolean roomHasUser(String room, String name) 
 	{
 		return roomList.get(room).hasUser(name);
@@ -143,4 +144,9 @@ public class ChatModel
 		roomList.get(room).chatMessage(name, message);
 	}
 
+	public static synchronized Collection<String> roomGetUserList(String room)
+	{
+		return roomList.get(room).userList();
+	}
+	
 }

@@ -161,7 +161,7 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 		shutdownRequested();
 	}
 	
-	// Room
+	// Rooms
 	
 	public void sendCreateRoom(String room)
 	{
@@ -210,7 +210,22 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	@Override
 	public void roomListChanged() 
 	{
-		cho.sendRoomList(ChatModel.getRoomNames());
+		cho.sendRoomList(ChatModel.getRooms());
+	}
+	
+	public void deleteRoom(String room)
+	{
+		cho.deleteRoom(room);
+	}
+	
+	public void sendAskRoomUserList(String room)
+	{
+		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+	}
+	
+	public void sendAskRoomList(String room)
+	{
+		cho.sendRoomList(ChatModel.getRooms());
 	}
 	
 }

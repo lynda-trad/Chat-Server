@@ -64,7 +64,7 @@ public class ChatOutput implements ChatProtocol
 		os.println("QUIT");
 	}
 
-	// Room
+	// Rooms
 	
 	public synchronized void sendRoomOK(String room) 
 	{
@@ -84,10 +84,10 @@ public class ChatOutput implements ChatProtocol
 		os.println(string);
 	}
 	
-	public synchronized void sendRoomList(Collection<String> rlist) //roomList de chatmodel
+	public synchronized void sendRoomList(Collection<String> rlist) 
 	{
 		os.println("RLIST");
-		rlist.forEach(os::println);
+		rlist.forEach(os::println); //roomList de chatmodel
 		os.println(".");
 	}
 	
