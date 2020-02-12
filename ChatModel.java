@@ -64,7 +64,7 @@ public class ChatModel
 	
 	public static void sendPrivateChatMessage(String from, String to, String msg)
 	{
-		clientList.get(from).privateChatMessageSent(from, to, msg);
+		clientList.get(to).privateChatMessageSent(from, to, msg);
 	}
 
 	public static void clearAll() 

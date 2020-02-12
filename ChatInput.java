@@ -51,8 +51,8 @@ public class ChatInput
 						
 					case "PRIVATE MESSAGE":
 						strName = is.readLine();
-						strMsg = is.readLine();
 						String dst = is.readLine();
+						strMsg = is.readLine();
 						handler.sendPrivateMessage(strName, dst, strMsg);
 						break;
 						
@@ -80,5 +80,4 @@ public class ChatInput
 			}
 		}
 	}
-
 }

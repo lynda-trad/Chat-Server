@@ -46,7 +46,7 @@ public class ChatOutput implements ChatProtocol
 	{
 		os.println("ULIST");
 		ulist.forEach(os::println);
-			os.println(".");
+		os.println(".");
 	}
 	
 	public synchronized void sendPrivateMessage(String from, String to, String msg) 

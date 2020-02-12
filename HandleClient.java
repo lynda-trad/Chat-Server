@@ -160,5 +160,4 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	{
 		shutdownRequested();
 	}
-	
 }
