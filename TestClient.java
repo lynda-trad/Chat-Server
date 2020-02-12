@@ -12,7 +12,7 @@ public class TestClient
 	{
 		try 
 		{
-			Socket s = new Socket("192.168.56.1", 1234);
+			Socket s = new Socket("localhost", 1234);
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			PrintWriter pw = new PrintWriter(s.getOutputStream(), false);
 			boolean stop = false;

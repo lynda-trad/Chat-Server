@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 public class ChatModel 
 {
-
 	private static final TreeMap<String, ChatModelEvents> clientList = new TreeMap<>();
 			
 	public static synchronized boolean registerUser(String name, HandleClient client)
@@ -26,9 +25,19 @@ public class ChatModel
 	
 	public static synchronized boolean renameUser(String oldname, String newname, HandleClient client) 
 	{
+		if (existUserName(oldname))
+		{
+			if(!existUserName(newname))
+			{
+				unregisterUser(oldname);
+				clientList.put(newname,client);
+				notifyNewName();
+				return true;
+			}
+		}
 		return false;
 	}
-			
+	
 	public static synchronized Set<String> getUserNames() 
 	{
 		return clientList.keySet();
@@ -47,10 +56,15 @@ public class ChatModel
 	{
 		clientList.values().forEach(ChatModelEvents::userListChanged);
 	}
-			
+	
 	public static void sendChatMessage(String from, String msg) 
 	{
 		clientList.values().forEach(c->c.chatMessageSent(from, msg));
+	}
+	
+	public static void sendPrivateChatMessage(String from, String to, String msg)
+	{
+		clientList.get(from).privateChatMessageSent(from, to, msg);
 	}
 
 	public static void clearAll() 

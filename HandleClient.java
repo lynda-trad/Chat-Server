@@ -58,8 +58,9 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 			}
 			else 
 			{
-				ChatModel.renameUser(name, newName, this);
+				ChatModel.renameUser(this.name, newName, this);
 			}
+			
 			this.name = newName;
 			cho.sendNameOK();
 			logger.clientGotName(s.toString(), name);
@@ -111,24 +112,53 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	@Override
 	public void userListChanged() 
 	{
-		// TODO Auto-generated method stub
+		cho.sendUserList(ChatModel.getUserNames());
 	}
 
 	@Override
 	public void chatMessageSent(String from, String message) 
 	{
-		// TODO Auto-generated method stub	
+		if (from != name) 
+		{
+			cho.sendMessage(from, message);
+		}
 	}
-
+	
 	@Override
 	public void privateChatMessageSent(String from, String to, String message) 
 	{
-		// TODO Auto-generated method stub	
+		if (from != name) 
+		{
+			cho.sendPrivateMessage(from, to, message);
+		}
 	}
-
+	
 	@Override
 	public void shutdownRequested() 
 	{
-		// TODO Auto-generated method stub	
+		cho.sendQuit();
 	}
+	
+	@Override
+	public void sendAskUserList() 
+	{
+		cho.sendUserList(ChatModel.getUserNames());
+	}
+	
+	@Override
+	public void sendPrivateMessage(String from, String to, String msg) 
+	{
+		if (state == ClientState.ST_INIT) 
+			return;
+		
+		ChatModel.sendPrivateChatMessage(from, to, msg);
+		logger.privateChat(from, to, msg);
+	}
+	
+	@Override
+	public void sendQuit() 
+	{
+		shutdownRequested();
+	}
+	
 }
