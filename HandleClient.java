@@ -1,5 +1,6 @@
 package chatModele;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -235,27 +236,32 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	
 	public void proposeFile(String user, String filename)
 	{
-		// TO-DO
+		// TO-DO ?
 		cho.proposeFile(user, filename);
 	}
 	
 	public void acceptFile(String user, String filename)
 	{
-		// TO-DO
+		// TO-DO ?
 		cho.acceptFile(user, filename);
 	}
 	
 	public void refuseFile(String user, String filename)
 	{
-		// TO-DO
+		// TO-DO ?
 		cho.refuseFile(user, filename);
 	}
 	
-	// how ? 
-	public void sendFile(String user, String filename, int size, String data)
+	public void sendFile(String user, String filename, File f)
 	{
-		// TO-DO
-		cho.sendFile(user, filename, size, data);
+		ChatModel.sendFile(name, user, filename, f);
+		f.delete();
+		cho.sendFile(user, filename, f);
 	}
-	
+
+	public void fileSent(String from, String filename, File f)
+	{
+		cho.sendFile(from, filename, f);
+	}
+
 }

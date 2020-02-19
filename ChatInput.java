@@ -1,6 +1,8 @@
 package chatModele;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -160,15 +162,31 @@ public class ChatInput
 						handler.refuseFile(strName, strMsg);
 					break;
 
-					// how ?
-					
-					/*
 					case "SEND FILE":
 						strName = is.readLine();
-						strMsg = is.readLine();
-						handler.sendFile(strName, strMsg);
+						String FName = is.readLine();
+						int FSize = Integer.parseInt(is.readLine());
+						File f = File.createTempFile(FName ,"t");
+						
+						try(FileOutputStream fo = new FileOutputStream (f))
+						{	
+							byte buf[] = new byte[8192];
+							int	len = 0;
+							int reste = FSize;
+
+							while (reste > 0 && len != 1) 
+							{
+								int toRead = buf.length;
+								if (toRead > reste) 
+									toRead = reste;
+								len = is.read(buf , 0, toRead);
+								fo.write(buf, 0, len);
+								reste -= len;
+							}
+						}
+
+						handler.sendFile(strName, FName,f);
 					break;
-					*/
 					
 					default:
 						throw new ChatProtocolException("Invalid input");

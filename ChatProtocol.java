@@ -1,5 +1,6 @@
 package chatModele;
 
+import java.io.File;
 import java.util.Collection;
 
 public interface ChatProtocol 
@@ -36,7 +37,5 @@ public interface ChatProtocol
 	default void proposeFile(String user, String filename) {}
 	default void acceptFile(String user, String filename) {}
 	default void refuseFile(String user, String filename) {}
-	
-	// how ? 
-	default void sendFile(String user, String filename, int size, String data) {}
+	default void sendFile(String user, String filename, File f) {}
 }

@@ -1,5 +1,7 @@
 package chatModele;
 
-public interface ChatModelEvents extends ChatEvents, RoomEvents
+import java.io.File;
+
+public interface ChatModelEvents extends ChatEvents, RoomEvents, FileEvents
 {
 }

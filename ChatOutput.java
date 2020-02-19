@@ -1,5 +1,7 @@
 package chatModele;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -8,7 +10,7 @@ import java.util.Collection;
 public class ChatOutput implements ChatProtocol
 {	
 	PrintWriter os;
-	
+	OutputStream oso;
 	public ChatOutput(OutputStream out) throws IOException 
 	{
 		this.os = new PrintWriter(out, true);
@@ -165,13 +167,26 @@ public class ChatOutput implements ChatProtocol
 		os.println(filename);
 	}
 	
-	public synchronized void sendFile(String user, String filename, int size, String data)
+	public synchronized void sendFile(String user, String filename, File f)
 	{
-		os.println("SEND FILE");
-		os.println(user);
-		os.println(filename);
-		os.println(size);
-		os.println(data);		
+		try (FileInputStream fi = new FileInputStream (f))
+		{
+			os.println("SEND FILE");
+			os.println(user);
+			os.println(filename);
+			os.println(f.length());
+			os.flush();
+			byte buf [] = new byte[8192];
+			int len = 0;
+			while(( len = fi.read(buf) ) != 1) 
+			{
+				oso.write(buf, 0, len);
+			}
+		} 
+		catch (IOException ex)
+		{
+			
+		}
 	}
 	
 }

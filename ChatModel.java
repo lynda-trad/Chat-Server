@@ -1,5 +1,6 @@
 package chatModele;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeMap;
@@ -147,6 +148,16 @@ public class ChatModel
 	public static synchronized Collection<String> roomGetUserList(String room)
 	{
 		return roomList.get(room).userList();
+	}
+
+	// Files
+	
+	public static void sendFile(String from, String to, String filename, File f) 
+	{
+		if(existUserName(to) && existUserName (from))
+		{
+			clientList.get(to).fileSent(from , filename, f);
+		}
 	}
 	
 }
