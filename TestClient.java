@@ -37,9 +37,7 @@ public class TestClient
 					pw.println(cmd);
 					break;
 				}
-				//System.out.println();
 			}
-
 			sc.close();
 			s.close();
 		}

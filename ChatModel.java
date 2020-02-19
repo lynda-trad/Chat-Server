@@ -61,14 +61,14 @@ public class ChatModel
 		clientList.values().forEach(ChatModelEvents::userListChanged);
 	}
 	
-	public static void sendChatMessage(String from, String msg) 
+	public static void sendChatMessage(String from, String message) 
 	{
-		clientList.values().forEach(c->c.chatMessageSent(from, msg));
+		clientList.values().forEach(c->c.chatMessageSent(from, message));
 	}
 	
-	public static void sendPrivateChatMessage(String from, String to, String msg)
+	public static void sendPrivateChatMessage(String from, String to, String message)
 	{
-		clientList.get(to).privateChatMessageSent(from, to, msg);
+		clientList.get(to).privateChatMessageSent(from, to, message);
 	}
 
 	public static void clearAll() 

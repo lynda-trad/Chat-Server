@@ -81,7 +81,5 @@ public class RoomModel
 			}
 		}
 		return false;
-	}
-	
-	
+	}	
 }

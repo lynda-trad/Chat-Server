@@ -74,6 +74,102 @@ public class ChatInput
 						handler.sendQuit();
 					break;
 						
+					// Rooms
+					
+					case "CREATE ROOM":
+						strName = is.readLine();
+						handler.sendCreateRoom(strName);
+					break;
+
+					case "ROOM OK":
+						handler.sendRoomOK();
+					break;
+
+					case "ROOM BAD":
+						handler.sendRoomBad();
+					break;
+
+					case "DELETE ROOM":
+						strName = is.readLine();						
+						handler.deleteRoom(strName);
+					break;
+					
+					case "ARLIST":
+						handler.sendAskRoomList();
+					break;
+					
+					case "RLIST":
+						userList = new ArrayList<>();
+						String r;
+						while (!(r = is.readLine()).equals(".")) 
+						{
+							userList.add(r);
+						}
+						handler.sendRoomList(userList);
+					break;
+					
+					case "ARULIST":
+						strName = is.readLine();
+						handler.sendAskRoomUserList(strName);
+					break;
+					
+					case "RULIST":
+						userList = new ArrayList<>();
+						String ru;
+						while (!(ru = is.readLine()).equals(".")) 
+						{
+							userList.add(ru);
+						}
+						handler.sendRoomUserList(userList);
+					break;
+					
+					case "ENTER ROOM":
+						strName = is.readLine();
+						handler.enterRoom(strName);
+					break;
+
+					case "LEAVE ROOM":
+						strName = is.readLine();
+						handler.leaveRoom(strName);
+					break;
+					
+					case "ROOM MESSAGE":
+						String room = is.readLine();
+						strName = is.readLine();
+						strMsg = is.readLine();
+						handler.sendRoomMessage(room, strName, strMsg);
+					break;
+					
+					// Files
+					
+					case "PROPOSE FILE":
+						strName = is.readLine();
+						strMsg = is.readLine();
+						handler.proposeFile(strName, strMsg);
+					break;
+					
+					case "ACCEPT FILE":
+						strName = is.readLine();
+						strMsg = is.readLine();
+						handler.acceptFile(strName, strMsg);						
+					break;
+					
+					case "REFUSE FILE":
+						strName = is.readLine();
+						strMsg = is.readLine();
+						handler.refuseFile(strName, strMsg);
+					break;
+
+					// how ?
+					
+					/*
+					case "SEND FILE":
+						strName = is.readLine();
+						strMsg = is.readLine();
+						handler.sendFile(strName, strMsg);
+					break;
+					*/
+					
 					default:
 						throw new ChatProtocolException("Invalid input");
 				}

@@ -73,19 +73,19 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 		cho.sendUserList(ChatModel.getUserNames());
 	}
 		
-	public void sendMessage(String user, String msg) 
+	public void sendMessage(String user, String message) 
 	{
 		if (state == ClientState.ST_INIT) 
 			return;
-		ChatModel.sendChatMessage(name, msg);
-		logger.publicChat(name, msg);
+		ChatModel.sendChatMessage(name, message);
+		logger.publicChat(name, message);
 	}
 		
-	public void chatMessage(String from, String msg) 
+	public void chatMessage(String from, String message) 
 	{
 		if (from != name) 
 		{
-			cho.sendMessage(from, msg);
+			cho.sendMessage(from, message);
 		}
 	}
 
@@ -146,13 +146,13 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	}
 	
 	@Override
-	public void sendPrivateMessage(String from, String to, String msg) 
+	public void sendPrivateMessage(String from, String to, String message) 
 	{
 		if (state == ClientState.ST_INIT) 
 			return;
 		
-		ChatModel.sendPrivateChatMessage(from, to, msg);
-		logger.privateChat(from, to, msg);
+		ChatModel.sendPrivateChatMessage(from, to, message);
+		logger.privateChat(from, to, message);
 	}
 	
 	@Override
@@ -169,11 +169,12 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 		{
 			return;
 		}
-		if(ChatModel.existRoom(room)) 
+		if(ChatModel.existRoom(room))
 			cho.sendRoomBad(room);
 		else
 		{
 			ChatModel.addRoom(room, name);
+			logger.createRoom(room);
 			cho.sendRoomOK(room);
 		}
 	}
@@ -184,18 +185,13 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 		{
 			cho.sendError( "Not initialized...");
 		}
-		if (ChatModel.roomHasUser(room, name ))
+		if (ChatModel.roomHasUser(room, from))
 		{
-			ChatModel.roomSendChatMessage(room, name ,message);
+			ChatModel.roomSendChatMessage(room, from, message);
+			logger.roomSendChatMessage(room, from, message);
 		}
 		else
-		cho.sendError( "Not in room...");
-	}
-
-	@Override
-	public void roomUserListChanged(String room) 
-	{
-		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+			cho.sendError( "Not in room...");
 	}
 
 	@Override
@@ -216,16 +212,50 @@ public class HandleClient implements Runnable, ChatProtocol, ChatModelEvents
 	public void deleteRoom(String room)
 	{
 		cho.deleteRoom(room);
-	}
-	
-	public void sendAskRoomUserList(String room)
-	{
-		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+		logger.deleteRoom(room);
 	}
 	
 	public void sendAskRoomList(String room)
 	{
 		cho.sendRoomList(ChatModel.getRooms());
+	}
+
+	public void sendAskRoomUserList(String room)
+	{
+		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+	}
+
+	@Override
+	public void roomUserListChanged(String room) 
+	{
+		cho.sendRoomUserList(room, RoomModel.getRoomUserNames());
+	}
+	
+	// Files
+	
+	public void proposeFile(String user, String filename)
+	{
+		// TO-DO
+		cho.proposeFile(user, filename);
+	}
+	
+	public void acceptFile(String user, String filename)
+	{
+		// TO-DO
+		cho.acceptFile(user, filename);
+	}
+	
+	public void refuseFile(String user, String filename)
+	{
+		// TO-DO
+		cho.refuseFile(user, filename);
+	}
+	
+	// how ? 
+	public void sendFile(String user, String filename, int size, String data)
+	{
+		// TO-DO
+		cho.sendFile(user, filename, size, data);
 	}
 	
 }

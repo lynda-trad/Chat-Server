@@ -32,11 +32,11 @@ public class ChatOutput implements ChatProtocol
 		os.println("NAME BAD");
 	}
 	
-	public synchronized void sendMessage(String user, String msg) 
+	public synchronized void sendMessage(String user, String message) 
 	{
 		os.println("MESSAGE");
 		os.println(user);
-		os.println(msg);
+		os.println(message);
 	}
 	
 	public synchronized void sendAskUserList() 
@@ -51,12 +51,12 @@ public class ChatOutput implements ChatProtocol
 		os.println(".");
 	}
 	
-	public synchronized void sendPrivateMessage(String from, String to, String msg) 
+	public synchronized void sendPrivateMessage(String from, String to, String message) 
 	{
 		os.println("PRIVATE MESSAGE");
 		os.println(from);
 		os.println(to);
-		os.println(msg);
+		os.println(message);
 	}
 	
 	public synchronized void sendQuit() 
@@ -65,6 +65,12 @@ public class ChatOutput implements ChatProtocol
 	}
 
 	// Rooms
+	
+	public synchronized void createRoom(String room) 
+	{
+		os.println("CREATE ROOM");
+		os.println(room);
+	}
 	
 	public synchronized void sendRoomOK(String room) 
 	{
@@ -83,7 +89,12 @@ public class ChatOutput implements ChatProtocol
 		os.println("DELETE ROOM");
 		os.println(string);
 	}
-	
+
+	public synchronized void sendAskRoomList()
+	{
+		os.println("ARLIST");
+	}
+
 	public synchronized void sendRoomList(Collection<String> rlist) 
 	{
 		os.println("RLIST");
@@ -91,12 +102,12 @@ public class ChatOutput implements ChatProtocol
 		os.println(".");
 	}
 	
-	public synchronized void sendRoomMessage(String room, String user, String msg) 
+	public synchronized void sendRoomMessage(String room, String user, String message) 
 	{
 		os.println("MESSAGE");
 		os.println(room);
 		os.println(user);
-		os.println(msg);
+		os.println(message);
 	}
 	
 	public synchronized void enterRoom(String room)
@@ -130,4 +141,37 @@ public class ChatOutput implements ChatProtocol
 		os.println("ERR");
 		os.println(string);
 	}
+		
+	// Files
+	
+	public synchronized void proposeFile(String user, String filename)
+	{
+		os.println("PROPOSE FILE");
+		os.println(user);
+		os.println(filename);
+	}
+	
+	public synchronized void acceptFile(String user, String filename)
+	{
+		os.println("ACCEPT FILE");
+		os.println(user);
+		os.println(filename);
+	}
+	
+	public synchronized void refuseFile(String user, String filename)
+	{
+		os.println("REFUSE FILE");
+		os.println(user);
+		os.println(filename);
+	}
+	
+	public synchronized void sendFile(String user, String filename, int size, String data)
+	{
+		os.println("SEND FILE");
+		os.println(user);
+		os.println(filename);
+		os.println(size);
+		os.println(data);		
+	}
+	
 }
